@@ -1,8 +1,11 @@
 import Header from "../../components/header";
+import Footer from "../../components/footer";
 export default function Contact() {
-    return(
-        <div>
-            <Header/>
-            Contact</div>
-    )
+  return (
+    <>
+      <Header />
+      <main>Contact</main>
+      <Footer />
+    </>
+  );
 }

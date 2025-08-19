@@ -1,1 +1,38 @@
 @import "tailwindcss";
+
+:root{
+    --dark-green: #064232;
+    --teal: #568F87;
+    --pink: #F5BABB;
+    --light-pink: #FFF5F2;
+    --dark-pink: #f6b4b5;
+    --white: #FFFFFF;
+}
+
+body{
+    background-color: var(--light-pink);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main { 
+  flex-grow: 1; 
+}
+
+footer {
+  flex-shrink: 0; 
+}
+
+.bg-color-dark-pink{
+    background-color: var(--dark-pink);
+}
+
+.bg-color-teal{
+    background-color: var(--teal);
+}
+
+.bg-color-pink{
+    background-color: var(--pink);
+}
+
