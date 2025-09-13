@@ -45,25 +45,32 @@ export default function Home() {
             className="mr-8"
           />
           <section>
-            <h1 className="font-bold text-3xl">Welcome to my portfolio!</h1>
+            <h1 className="font-bold text-3xl text-center">Welcome to my portfolio!</h1>
             <h2 className="text-xl text-center">Dana Dabdoub</h2>
           </section>
         </section>
+
         <section className="p-8">
           <h2 className="text-xl mb-2">About me</h2>
-          <p>
-            I am a passionate developer with experience in building applications
-            using modern technologies. My portfolio showcases my skills and
-            projects that I have worked on. Feel free to explore and reach out
-            if you have any questions or opportunities!
-          </p>
+          <div>
+            <p>
+              I am a passionate developer with experience in building applications
+              using modern technologies. My portfolio showcases my skills and
+              projects that I have worked on. Feel free to explore and reach out
+              if you have any questions or opportunities!
+            </p>
+            <button className="bg-color-teal rounded-lg px-4 py-2 text-white">
+              Know more
+            </button>
+          </div>
         </section>
+
         <section className="bg-color-pink p-8">
           <h2 className="text-xl mb-2">Checkout my projects</h2>
           <div className="flex flex-wrap gap-4">{projectList}</div>
         </section>
 
-        <section className="p-8 m-5">
+        <section className="p-8 m-5 flex flex-col items-center">
           <h2 className="text-xl text-center mb-2">Contact me</h2>
           <ContactForm/>
         </section>
