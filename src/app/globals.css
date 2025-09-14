@@ -39,20 +39,33 @@ footer {
     background-color: var(--blush);
 }
 
-nav>ul>li:hover{
+.nav-link:hover{
     background-color: var(--primary-green);
+    border-radius: 15px;
 }
 
-nav>ul>li{
+.nav-link{
     cursor: pointer;
+    border-radius: 15px;
 }
 
-/* .bottom-frame-border{
-    border-style: solid;
-    border-width: 40px;
-    border-image-repeat: repeat;
-    border-image-source: url('/bottomFrame.png');
-    border-image-slice: 100;
-    border-top: transparent 0 solid;
-    border-color: transparent;
-} */
+.bg-gold{
+    background-color: var(--gold);
+}
+
+.other-socials-box{
+    clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+    /*clip-path: polygon(0 50%, 0 0, 100% 0, 100% 50%, 50% 100%);*/
+    padding: 20px 40px;
+    background-color: var(--primary-green);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    border-radius: 6px;
+}
+
+.other-socials-box button:hover{
+    color: var(--gold);
+}

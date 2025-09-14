@@ -1,18 +1,27 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Poppins } from 'next/font/google';
+import { Poppins } from "next/font/google";
 import Header from "components/header";
 import Footer from "components/footer";
 
 const poppins = Poppins({
-      weight: ['400', '700'],
-      subsets: ['latin'],
-      display: 'swap',
-  });
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Dana's Portfolio",
-  description: "Welcome to my portfolio website. Here you can find information about my projects, skills, and how to contact me.",
+  description:
+    "Welcome to my portfolio website. Here you can find information about my projects, skills, and how to contact me.",
+   icons: {
+        icon: [
+          {
+            media: '(prefers-color-scheme: light)',
+            url: '/logo.svg', // Path to your light mode icon
+          },
+        ],
+      },
 };
 
 export default function RootLayout({
@@ -23,9 +32,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={poppins.className}>
       <body>
-        <Header/>
+        <Header />
         {children}
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );

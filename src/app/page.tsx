@@ -24,10 +24,6 @@ export default function Home() {
     getAllProjects();
   }, []);
 
-  const knowMore = () => {
-    router.push("/about");
-  };
-
   const goToResume = () => {
     router.push("/resume");
   };
@@ -59,22 +55,13 @@ export default function Home() {
             projects that I have worked on. Feel free to explore and reach out
             if you have any questions or opportunities!
           </p>
-          <div className="flex flex-col">
-            <button
-              className="bg-color-primary-green rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
-              onClick={knowMore}
-            >
-              Know more
-              <FaChevronRight className="ml-1" />
-            </button>
-            <button
-              className="bg-color-primary-green rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
-              onClick={goToResume}
-            >
-              My Resume
-              <FaChevronRight className="ml-1" />
-            </button>
-          </div>
+          <button
+            className="bg-color-primary-green rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
+            onClick={goToResume}
+          >
+            My Resume
+            <FaChevronRight className="ml-1" />
+          </button>
         </section>
 
         <section className="bg-color-primary-green p-8 flex flex-col items-center">
