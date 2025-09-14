@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Form from "next/form";
-import axios from "axios";
 
 export default function ContactForm() {
   const [messageData, setMessageData] = useState({
@@ -10,21 +9,55 @@ export default function ContactForm() {
     message: "",
   });
 
-  const submitMessage = async () =>{
-    try{
-      const msData = JSON.stringify(messageData);
-      await axios.post(`http://localhost:5000/messages/send/${msData}`)
-      console.log("sending successful")
-    } catch (er){
-      console.error(er);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setMessageData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const submitMessage = async () => {
+    const msData = JSON.stringify(messageData);
+    try {
+      console.log("Starting to post");
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: msData,
+      });
+      console.log("Finished post");
+
+      if (response.ok) {
+        // Handle success
+        const data = await response.json();
+        console.log("Email sent successfully:", data);
+        setMessageData({
+          email: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        // Handle errors
+        const error = await response.json();
+        console.error("Failed to send email:", error);
+        alert("Failed to send email. Please try again.");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
-  }
+  };
 
   return (
     <Form
       action="/send-message"
-      className="flex flex-col gap-4 py-8 px-6 bg-color-teal text-white rounded-lg items-center max-w-lg"
-      onSubmit={(e)=> {e.preventDefault()}}
+      className="flex flex-col gap-4 py-6 px-4 bg-color-primary-green text-white rounded-lg items-center max-w-lg"
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
     >
       <div className="flex flex-col gap-4 w-md">
         <label htmlFor="" className="mt-2">
@@ -37,13 +70,8 @@ export default function ContactForm() {
           className="border-[#568F87] border-2 rounded-lg p-4 bg-white text-black"
           placeholder="e.g. johndoe@gmail.com"
           value={messageData.email}
-          onChange={(e) =>
-            setMessageData({
-              email: e.target.value,
-              subject: messageData.subject,
-              message: messageData.message,
-            })
-          }
+          onChange={handleInputChange}
+          required
         />
       </div>
       <div className="flex flex-col gap-4 w-md">
@@ -57,13 +85,8 @@ export default function ContactForm() {
           className="border-[#568F87] border-2 rounded-lg p-4 bg-white text-black"
           placeholder="e.g. Website Development"
           value={messageData.subject}
-          onChange={(e) =>
-            setMessageData({
-              email: messageData.email,
-              subject: e.target.value,
-              message: messageData.message,
-            })
-          }
+          onChange={handleInputChange}
+          required
         />
       </div>
       <div className="flex flex-col gap-4 w-md">
@@ -76,13 +99,8 @@ export default function ContactForm() {
           className="border-[#568F87] border-2 rounded-lg p-4 bg-white text-black"
           placeholder="Are you available to create a website for ..."
           value={messageData.message}
-          onChange={(e) =>
-            setMessageData({
-              email: messageData.email,
-              subject: messageData.subject,
-              message: e.target.value,
-            })
-          }
+          onChange={handleInputChange}
+          required
         ></textarea>
       </div>
       <button

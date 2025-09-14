@@ -14,7 +14,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <a
       href={url}
-      className="block hover:shadow-lg transition-shadow duration-300 max-w-md"
+      className="block hover:shadow-lg transition-shadow duration-300 max-w-sm min-h-md"
     >
       <div className="border rounded-lg overflow-hidden shadow-lg bg-white">
         <img

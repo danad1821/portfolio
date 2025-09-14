@@ -1,12 +1,11 @@
 @import "tailwindcss";
 
 :root{
-    --dark-green: #064232;
-    --teal: #4a8079;
-    --pink: #f6aaac;
-    --light-pink: #FFF5F2;
-    --dark-pink: #f6b4b5;
     --white: #FFFFFF;
+    --primary-green: #2D4734;
+    --secondary-green: #6E7D58;
+    --blush: #C8A89A;
+    --gold: #B98A3C; 
 }
 
 body{
@@ -28,16 +27,24 @@ footer {
   flex-shrink: 0; 
 }
 
-.bg-color-dark-pink{
-    background-color: var(--dark-pink);
+.bg-color-primary-green{
+    background-color: var(--primary-green);
 }
 
-.bg-color-teal{
-    background-color: var(--teal);
+.bg-color-secondary-green{
+    background-color: var(--secondary-green);
 }
 
 .bg-color-pink{
-    background-color: var(--pink);
+    background-color: var(--blush);
+}
+
+nav>ul>li:hover{
+    background-color: var(--primary-green);
+}
+
+nav>ul>li{
+    cursor: pointer;
 }
 
 /* .bottom-frame-border{

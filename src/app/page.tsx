@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <main>
-        <section className="bg-color-teal text-white p-8 flex items-center justify-center">
+        <section className="bg-color-pink text-white p-8 flex items-center justify-center">
           <Image
             src="/frameProf.png"
             alt="Profile Picture"
@@ -61,14 +61,14 @@ export default function Home() {
           </p>
           <div className="flex flex-col">
             <button
-              className="bg-color-teal rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
+              className="bg-color-primary-green rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
               onClick={knowMore}
             >
               Know more
               <FaChevronRight className="ml-1" />
             </button>
             <button
-              className="bg-color-teal rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
+              className="bg-color-primary-green rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
               onClick={goToResume}
             >
               My Resume
@@ -77,8 +77,8 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-color-pink p-8 flex flex-col items-center">
-          <h2 className="text-xl mb-4 font-bold">Checkout my projects</h2>
+        <section className="bg-color-primary-green p-8 flex flex-col items-center">
+          <h2 className="text-xl mb-4 font-bold text-white">Checkout my projects</h2>
           <div className="flex gap-4 overflow-auto">
             {projects.length > 0
               ? projects.map((project, index) => (

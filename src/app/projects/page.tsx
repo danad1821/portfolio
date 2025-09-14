@@ -22,14 +22,17 @@ export default function Projects() {
   return (
     <>
       <main>
-        <h1>Projects</h1>
-        <div className="flex flex-wrap gap-4">
+        <h1 className="font-bold text-3xl text-center m-2">Projects</h1>
+        <section>
+          <input type="text" placeholder="" />
+        </section>
+        <section className="flex flex-wrap m-2">
           {projects.length > 0
             ? projects.map((project, index) => (
                 <ProjectCard key={index} project={project} />
               ))
             : "No projects available"}
-        </div>
+        </section>
       </main>
     </>
   );
