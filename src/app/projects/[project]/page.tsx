@@ -33,7 +33,7 @@ export default function ProjectPage() {
     <>
       <main>
         <section>
-          <img src={projectDetails?.image} alt={projectDetails?.title} />
+          <img src={`/${projectDetails?.image}`} alt={projectDetails?.title} />
           <h1 className="font-bold text-3xl text-center m-2">
             {projectDetails?.title}
           </h1>
