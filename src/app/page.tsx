@@ -68,7 +68,7 @@ export default function Home() {
           <h2 className="text-xl mb-4 font-bold text-white">Checkout my projects</h2>
           <div className="flex gap-4 overflow-auto">
             {projects.length > 0
-              ? projects.map((project, index) => (
+              ? projects.slice(0,3).map((project, index) => (
                   <ProjectCard key={index} project={project} />
                 ))
               : "No projects available"}
