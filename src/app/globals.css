@@ -20,6 +20,10 @@ main {
   flex-grow: 1; 
 }
 
+button{
+    cursor: pointer;
+}
+
 footer {
   flex-shrink: 0; 
 }

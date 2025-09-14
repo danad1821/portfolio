@@ -6,11 +6,11 @@ import ContactForm from "../components/contactForm";
 import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-
+import { FaChevronRight } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-
+  const router = useRouter();
   const [projects, setProjects] = useState([]);
 
   const getAllProjects = async () => {
@@ -26,6 +26,14 @@ export default function Home() {
   useEffect(() => {
     getAllProjects();
   }, []);
+
+  const knowMore = () => {
+    router.push("/about");
+  };
+
+  const goToResume = () => {
+    router.push("/resume");
+  };
 
   return (
     <>
@@ -47,24 +55,35 @@ export default function Home() {
           </section>
         </section>
 
-        <section className="p-8">
-          <h2 className="text-xl mb-2">About me</h2>
-          <div>
-            <p>
-              I am a passionate developer with experience in building
-              applications using modern technologies. My portfolio showcases my
-              skills and projects that I have worked on. Feel free to explore
-              and reach out if you have any questions or opportunities!
-            </p>
-            <button className="bg-color-teal rounded-lg px-4 py-2 text-white">
+        <section className="p-8 flex items-center justify-around flex-wrap">
+          <h2 className="text-xl font-bold">About me</h2>
+          <p className="my-5 mx-10 max-w-xl">
+            I am a passionate developer with experience in building applications
+            using modern technologies. My portfolio showcases my skills and
+            projects that I have worked on. Feel free to explore and reach out
+            if you have any questions or opportunities!
+          </p>
+          <div className="flex flex-col">
+            <button
+              className="bg-color-teal rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
+              onClick={knowMore}
+            >
               Know more
+              <FaChevronRight className="ml-1" />
+            </button>
+            <button
+              className="bg-color-teal rounded-lg px-4 py-2 text-white max-w-md m-2 flex items-center"
+              onClick={goToResume}
+            >
+              My Resume
+              <FaChevronRight className="ml-1" />
             </button>
           </div>
         </section>
 
-        <section className="bg-color-pink p-8">
-          <h2 className="text-xl mb-2">Checkout my projects</h2>
-          <div className="flex flex-wrap gap-4">
+        <section className="bg-color-pink p-8 flex flex-col items-center">
+          <h2 className="text-xl mb-4 font-bold">Checkout my projects</h2>
+          <div className="flex gap-4 overflow-auto">
             {projects.length > 0
               ? projects.map((project, index) => (
                   <ProjectCard key={index} project={project} />
@@ -74,7 +93,7 @@ export default function Home() {
         </section>
 
         <section className="p-8 m-5 flex flex-col items-center">
-          <h2 className="text-xl text-center mb-2">Contact me</h2>
+          <h2 className="text-xl font-bold text-center mb-2">Contact me</h2>
           <ContactForm />
         </section>
       </main>
