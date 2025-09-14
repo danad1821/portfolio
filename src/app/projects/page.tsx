@@ -1,6 +1,4 @@
 "use client";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
 import ProjectCard from "components/projectCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -23,7 +21,6 @@ export default function Projects() {
 
   return (
     <>
-      <Header />
       <main>
         <h1>Projects</h1>
         <div className="flex flex-wrap gap-4">
@@ -34,7 +31,6 @@ export default function Projects() {
             : "No projects available"}
         </div>
       </main>
-      <Footer />
     </>
   );
 }

@@ -1,6 +1,4 @@
 "use client";
-import Header from "../components/header";
-import Footer from "../components/footer";
 import ProjectCard from "../components/projectCard";
 import ContactForm from "../components/contactForm";
 import Image from "next/image";
@@ -16,7 +14,6 @@ export default function Home() {
   const getAllProjects = async () => {
     try {
       const res = await axios.get("http://localhost:5000/projects");
-      console.log(res);
       setProjects(res.data);
     } catch (error) {
       console.error(error);
@@ -37,7 +34,6 @@ export default function Home() {
 
   return (
     <>
-      <Header />
       <main>
         <section className="bg-color-teal text-white p-8 flex items-center justify-center">
           <Image
@@ -97,8 +93,6 @@ export default function Home() {
           <ContactForm />
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }

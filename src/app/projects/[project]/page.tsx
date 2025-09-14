@@ -1,6 +1,4 @@
 "use client";
-import Footer from "components/footer";
-import Header from "components/header";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -25,7 +23,6 @@ export default function ProjectPage() {
 
   return (
     <>
-    <Header/>
     <main>
       <section>
         <img src="" alt="" />
@@ -49,7 +46,6 @@ export default function ProjectPage() {
         </div>
       </section>
     </main>
-    <Footer/>
     </>
     
   );

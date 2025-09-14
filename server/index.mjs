@@ -2,6 +2,7 @@ import "./loadEnvironment.mjs";
 import express from "express";
 import cors from "cors";
 import projectsRouter from "./routes/projects.mjs";
+import messagesRouter from "./routes/messages.mjs";
 
 const app = express();
 const port = 5000;
@@ -14,6 +15,6 @@ app.listen(port, () => {
 });
 
 app.use("/projects", projectsRouter);
-
+app.use("/messages", messagesRouter);
 
 
