@@ -1,7 +1,7 @@
 export default function Loading(){
     return(
-        <main>
-            <div>Page is loading</div>
+        <main className="h-full w-full flex items-center justify-center">
+            Page is loading
         </main>
     )
 }

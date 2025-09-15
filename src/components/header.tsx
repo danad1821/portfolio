@@ -3,7 +3,7 @@ import { usePathname } from 'next/navigation';
 export default function Header() {
   const pathname = usePathname();
   return (
-    <header className="bg-color-secondary-green text-black sticky top-0 bottom-frame-border">
+    <header className="bg-color-secondary-green text-black sticky top-0 bottom-frame-border z-15">
       <nav className="bg-color-secondary-green">
         <ul className="flex gap-4 text-white items-center justify-center">
           <li className="p-1 jusitfy-self-start">
