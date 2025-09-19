@@ -9,7 +9,9 @@ export default function ContactForm() {
     message: "",
   });
 
-  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+  const [error, setError] = useState("")
+
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setMessageData((prevData) => ({
       ...prevData,
@@ -18,9 +20,28 @@ export default function ContactForm() {
   };
 
   const submitMessage = async () => {
+    if (messageData.message != "") {
+      setError("Please enter a message!");
+      return;
+    }
+    if (messageData.subject != "") {
+      setError("Please specify the subject!");
+      return;
+    }
+    if (
+      !messageData.email
+        .trim()
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      setError("Please enter a valid email!");
+      return;
+    }
+
     const msData = JSON.stringify(messageData);
     try {
-      console.log("Starting to post");
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -28,7 +49,6 @@ export default function ContactForm() {
         },
         body: msData,
       });
-      console.log("Finished post");
 
       if (response.ok) {
         // Handle success
@@ -41,13 +61,11 @@ export default function ContactForm() {
         });
       } else {
         // Handle errors
-        const error = await response.json();
-        console.error("Failed to send email:", error);
-        alert("Failed to send email. Please try again.");
+        setError("Failed to send email. Please try again.");
       }
     } catch (error) {
       console.error("An error occurred:", error);
-      alert("An unexpected error occurred. Please try again.");
+      setError("An unexpected error occurred. Please try again.");
     }
   };
 
