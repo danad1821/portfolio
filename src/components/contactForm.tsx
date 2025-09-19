@@ -9,7 +9,7 @@ export default function ContactForm() {
     message: "",
   });
 
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
 
   const handleInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
