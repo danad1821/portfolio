@@ -29,7 +29,7 @@ export default function AdminSignIn({closeAdminSignIn}:AdminSignInProps) {
   return (
     <section>
       {/* Overlay - covers the entire screen */}
-      <div className="fixed inset-0 z-10 bg-black opacity-30"></div>
+      <div className="fixed inset-0 z-10 bg-black opacity-50"></div>
 
       {/* Popup - centered over the overlay */}
       <div className="fixed inset-0 z-20 flex items-center justify-center">

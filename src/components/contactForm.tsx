@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import Form from "next/form";
+import { MdErrorOutline } from "react-icons/md";
+import { BsEnvelopeCheck } from "react-icons/bs";
 
 export default function ContactForm() {
   const [messageData, setMessageData] = useState({
@@ -9,7 +11,8 @@ export default function ContactForm() {
     message: "",
   });
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
 
   const handleInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
@@ -20,14 +23,6 @@ export default function ContactForm() {
   };
 
   const submitMessage = async () => {
-    if (messageData.message != "") {
-      setError("Please enter a message!");
-      return;
-    }
-    if (messageData.subject != "") {
-      setError("Please specify the subject!");
-      return;
-    }
     if (
       !messageData.email
         .trim()
@@ -37,6 +32,23 @@ export default function ContactForm() {
         )
     ) {
       setError("Please enter a valid email!");
+      setTimeout(() => {
+        setError("");
+      }, 10000);
+      return;
+    }
+    if (messageData.subject.length === 0) {
+      setError("Please specify the subject!");
+      setTimeout(() => {
+        setError("");
+      }, 10000);
+      return;
+    }
+    if (messageData.message.length === 0) {
+      setError("Please enter a message!");
+      setTimeout(() => {
+        setError("");
+      }, 10000);
       return;
     }
 
@@ -54,6 +66,10 @@ export default function ContactForm() {
         // Handle success
         const data = await response.json();
         console.log("Email sent successfully:", data);
+        setSuccess("Email sent successfully!");
+        setTimeout(() => {
+          setSuccess("");
+        }, 10000);
         setMessageData({
           email: "",
           subject: "",
@@ -62,10 +78,16 @@ export default function ContactForm() {
       } else {
         // Handle errors
         setError("Failed to send email. Please try again.");
+        setTimeout(() => {
+          setError("");
+        }, 10000);
       }
     } catch (error) {
       console.error("An error occurred:", error);
       setError("An unexpected error occurred. Please try again.");
+      setTimeout(() => {
+        setError("");
+      }, 10000);
     }
   };
 
@@ -89,7 +111,6 @@ export default function ContactForm() {
           placeholder="e.g. johndoe@gmail.com"
           value={messageData.email}
           onChange={handleInputChange}
-          required
         />
       </div>
       <div className="flex flex-col gap-4 w-md">
@@ -104,7 +125,6 @@ export default function ContactForm() {
           placeholder="e.g. Website Development"
           value={messageData.subject}
           onChange={handleInputChange}
-          required
         />
       </div>
       <div className="flex flex-col gap-4 w-md">
@@ -118,9 +138,24 @@ export default function ContactForm() {
           placeholder="Are you available to create a website for ..."
           value={messageData.message}
           onChange={handleInputChange}
-          required
         ></textarea>
       </div>
+      {error && (
+        <div className="bg-white border-red-500 border-2 text-red-500 p-2 rounded-lg flex items-center justify-between">
+          <MdErrorOutline />
+          <p className="ml-1">
+            <b>Error:</b> {error}
+          </p>
+        </div>
+      )}
+      {success && (
+        <div className="bg-white border-green-500 border-2 text-green-500 p-2 rounded-lg flex items-center justify-between">
+          <BsEnvelopeCheck />
+          <p className="ml-1">
+            <b>{success}</b>
+          </p>
+        </div>
+      )}
       <button
         type="submit"
         className="bg-color-pink cursor-pointer rounded-lg px-4 py-2 mt-3 text-center text-black w-50"
