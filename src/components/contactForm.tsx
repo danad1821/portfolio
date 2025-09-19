@@ -158,7 +158,7 @@ export default function ContactForm() {
       )}
       <button
         type="submit"
-        className="bg-color-pink cursor-pointer rounded-lg px-4 py-2 mt-3 text-center text-black w-50"
+        className="bg-color-pink cursor-pointer rounded-lg px-4 py-2 mt-3 text-center text-white w-50"
         onClick={submitMessage}
       >
         Send

@@ -22,7 +22,7 @@ export default function FilterToolTip({
   };
 
   return (
-    <section className="absolute bg-white rounded-lg border-[#B98A3C] border-2 w-full max-w-xs p-4 flex flex-col items-center shadow-lg top-16 z-10">
+    <section className="absolute bg-white rounded-lg border-[#B98A3C] border-2 w-full max-w-xs p-4 flex flex-col items-center shadow-lg top-16 left-1/15 z-10">
       <h3 className="font-bold text-lg mb-2">Filter by skills:</h3>
       <div className="flex flex-wrap justify-center gap-2">
         {skills.map((skill) => (

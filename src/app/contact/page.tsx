@@ -9,7 +9,7 @@ export default function Contact() {
     <>
       <main>
         <h1 className="font-bold text-3xl text-center m-3">Contact</h1>
-        <div className="flex justify-center my-8">
+        <div className="flex justify-center my-8 flex-wrap">
           <ContactForm />
           <section className="other-socials-box">
             <h2 className="text-xl font-bold">Other methods:</h2>

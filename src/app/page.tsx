@@ -31,13 +31,12 @@ export default function Home() {
   return (
     <>
       <main>
-        <section className="bg-color-pink text-white p-8 flex items-center justify-center">
+        <section className="bg-color-pink text-white p-8 flex items-center justify-center flex-wrap gap-4">
           <Image
             src="/frameProf.png"
             alt="Profile Picture"
             width={500}
             height={700}
-            className="mr-8"
           />
           <section>
             <h1 className="font-bold text-3xl text-center">

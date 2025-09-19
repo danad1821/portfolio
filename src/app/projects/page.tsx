@@ -6,6 +6,8 @@ import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import Loading from "app/loading";
 import { IoFilterOutline } from "react-icons/io5";
 import FilterToolTip from "components/filterTooltip";
+import { useSearchParams } from "next/navigation";
+import { RiSortAsc, RiSortDesc } from "react-icons/ri";
 
 type ProjectResult = {
   _id: string;
@@ -14,19 +16,38 @@ type ProjectResult = {
   image: string;
   skills: string[];
   link: string;
+  date: Date;
 };
 
 export default function Projects() {
+  const searchParams = useSearchParams();
+  const filterSkills = searchParams.get("filterSkills");
+
   const [projects, setProjects] = useState<ProjectResult[]>([]);
-  const [displayedProjects, setDisplayedProjects] = useState<ProjectResult[]>([]);
+  const [displayedProjects, setDisplayedProjects] = useState<ProjectResult[]>(
+    []
+  );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [filteredProjects, setFilteredProjects] = useState<ProjectResult[]>([]);
   const [openTooltip, setOpenTooltip] = useState<boolean>(false);
   const [allSkills, setAllSkills] = useState<Set<string>>(new Set());
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>(
+    filterSkills ? [filterSkills] : []
+  );
   const projectsPerPage = 6;
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sorting, setSorting] = useState<boolean>(true);
+
+  const sortProjects = (projectsToSort: ProjectResult[]) => {
+    const sorted = [...projectsToSort]; // Create a new array to avoid mutating state
+    if (sorting) {
+      sorted.sort((a: any, b: any) => b.date - a.date); // Sort from latest to earliest (descending)
+    } else {
+      sorted.sort((a: any, b: any) => a.date - b.date); // Sort from earliest to latest (ascending)
+    }
+    setFilteredProjects(sorted);
+  };
 
   const applyFilters = () => {
     let newFilteredProjects = [...projects];
@@ -41,6 +62,12 @@ export default function Projects() {
       newFilteredProjects = newFilteredProjects.filter((proj) =>
         selectedSkills.every((skill) => proj.skills.includes(skill))
       );
+    }
+
+    if (sorting) {
+      newFilteredProjects.sort((a: any, b: any) => b.date - a.date); // Sort from latest to earliest (descending)
+    } else {
+      newFilteredProjects.sort((a: any, b: any) => a.date - b.date); // Sort from earliest to latest (ascending)
     }
 
     setFilteredProjects(newFilteredProjects);
@@ -64,9 +91,19 @@ export default function Projects() {
     try {
       const res = await axios.get("http://localhost:5000/projects");
       const projectData: ProjectResult[] = res.data;
-      setProjects(projectData);
-      setFilteredProjects(projectData);
-      const skillList = projectData.flatMap((result) => result.skills);
+
+      // Convert the date string to a Date object for each project
+      const projectsWithDates = projectData.map((proj) => ({
+        ...proj,
+        date: new Date(proj.date),
+      }));
+
+      setProjects(projectsWithDates);
+      setFilteredProjects(
+        projectsWithDates.sort((a: any, b: any) => b.date - a.date)
+      );
+
+      const skillList = projectsWithDates.flatMap((result) => result.skills);
       const skillSet = new Set(skillList);
       setAllSkills(skillSet);
     } catch (error) {
@@ -100,6 +137,11 @@ export default function Projects() {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
+  const handleSortClick = () => {
+    setSorting((prevSorting) => !prevSorting);
+    sortProjects(filteredProjects);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -117,6 +159,9 @@ export default function Projects() {
             />
             <button onClick={() => setOpenTooltip(!openTooltip)}>
               <IoFilterOutline />
+            </button>
+            <button onClick={handleSortClick}>
+              {!sorting ? <RiSortAsc /> : <RiSortDesc />}
             </button>
           </section>
           {openTooltip && (

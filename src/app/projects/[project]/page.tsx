@@ -3,15 +3,18 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import GoldSquiggles from "components/goldSquiggles";
+import { useRouter } from "next/navigation";
 
 export default function ProjectPage() {
   const projectId = useParams();
+  const router = useRouter();
   const [projectDetails, setProjectDetails] = useState({
     title: "",
     description: "",
     skills: [""],
     link: "",
     image: "",
+    date: new Date()
   });
 
   const getProjectDetails = async () => {
@@ -28,6 +31,10 @@ export default function ProjectPage() {
   useEffect(() => {
     getProjectDetails();
   }, []);
+
+  const checkProjectsBySkill = (skill: string) =>{
+    router.push(`/projects?filterSkills=${skill}`)
+  }
 
   return (
     <>
@@ -61,6 +68,7 @@ export default function ProjectPage() {
                   <button
                     key={index}
                     className="bg-color-secondary-green p-2 mr-2 rounded-lg hover:text-[#B98A3C]"
+                    onClick={()=>{checkProjectsBySkill(skill)}}
                   >
                     {skill}
                   </button>
