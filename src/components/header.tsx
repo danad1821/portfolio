@@ -2,56 +2,123 @@
 import { useState } from "react";
 import AdminSignIn from "./adminSignIn";
 import { usePathname } from "next/navigation";
+import { useWindowDimensions } from "hooks/useWindowDimensions";
+import { RxHamburgerMenu } from "react-icons/rx";
 export default function Header() {
+  const { width, height } = useWindowDimensions();
   const [openAdminSignIn, setOpenAdminsignIn] = useState<boolean>(false);
+  const [openResponsiveNav, setOpenResponsiveNav] = useState<boolean>(false);
   const pathname = usePathname();
+
   const changeOpenAdminSignIn = () => {
     setOpenAdminsignIn(!openAdminSignIn);
   };
+
   const closeAdminSignIn = () => {
     setOpenAdminsignIn(false);
   };
+
+  const closeResponsiveNav = () => {
+    setOpenResponsiveNav(false);
+  };
   return (
     <header className="bg-color-secondary-green text-black sticky top-0 z-15">
-      <nav className="bg-color-secondary-green">
-        <ul className="flex gap-4 text-white items-center justify-center">
-          <li
-            className="p-1 jusitfy-self-start relative"
-            onClick={changeOpenAdminSignIn}
-          >
-            <img src="/logo.png" className="w-20 h-20" alt="logo" />
+      {width > 675 ? (
+        <nav className="bg-color-secondary-green">
+          <ul className="flex gap-4 text-white items-center justify-center">
+            <li
+              className="p-1 jusitfy-self-start relative"
+              onClick={changeOpenAdminSignIn}
+            >
+              <img src="/logo.png" className="w-20 h-20" alt="logo" />
+              {openAdminSignIn && (
+                <AdminSignIn closeAdminSignIn={closeAdminSignIn} />
+              )}
+            </li>
+            <li
+              className={`p-4 nav-link ${
+                pathname === "/" ? "active-link" : ""
+              }`}
+            >
+              <a href="/" onClick={closeResponsiveNav}>Home</a>
+            </li>
+            <li
+              className={`p-4 nav-link ${
+                pathname === "/projects" ? "active-link" : ""
+              }`}
+            >
+              <a href="/projects" onClick={closeResponsiveNav}>Projects</a>
+            </li>
+            <li
+              className={`p-4 nav-link ${
+                pathname === "/resume" ? "active-link" : ""
+              }`}
+            >
+              <a href="/resume" onClick={closeResponsiveNav}>Resume</a>
+            </li>
+            <li
+              className={`p-4 nav-link ${
+                pathname === "/contact" ? "active-link" : ""
+              }`}
+            >
+              <a href="/contact" onClick={closeResponsiveNav}>Contact</a>
+            </li>
+          </ul>
+        </nav>
+      ) : (
+        <nav className="bg-color-secondary-green flex items-center justify-between relative h-20">
+          <section className="p-2" onClick={changeOpenAdminSignIn}>
+            <img src="/logo.png" className="w-15 h-15" alt="logo" />
             {openAdminSignIn && (
               <AdminSignIn closeAdminSignIn={closeAdminSignIn} />
             )}
-          </li>
-          <li
-            className={`p-4 nav-link ${pathname === "/" ? "active-link" : ""}`}
+          </section>
+          <button
+            className="text-white p-2 text-2xl"
+            onClick={() => setOpenResponsiveNav(!openResponsiveNav)}
           >
-            <a href="/">Home</a>
-          </li>
-          <li
-            className={`p-4 nav-link ${
-              pathname === "/projects" ? "active-link" : ""
-            }`}
-          >
-            <a href="/projects">Projects</a>
-          </li>
-          <li
-            className={`p-4 nav-link ${
-              pathname === "/resume" ? "active-link" : ""
-            }`}
-          >
-            <a href="/resume">Resume</a>
-          </li>
-          <li
-            className={`p-4 nav-link ${
-              pathname === "/contact" ? "active-link" : ""
-            }`}
-          >
-            <a href="/contact">Contact</a>
-          </li>
-        </ul>
-      </nav>
+            <RxHamburgerMenu />
+          </button>
+          {openResponsiveNav && (
+            <ul
+              className={`flex flex-col gap-4 text-white items-center justify-center absolute top-20 right-0 bg-color-secondary-green rounded-bl-lg transition-all duration-500 ease-in-out ${
+                openResponsiveNav
+                  ? "max-h-96 opacity-100 p-4"
+                  : "max-h-0 opacity-0 p-0"
+              }`}
+            >
+              <li
+                className={`p-4 nav-link ${
+                  pathname === "/" ? "active-link" : ""
+                }`}
+              >
+                <a href="/">Home</a>
+              </li>
+              <li
+                className={`p-4 nav-link ${
+                  pathname === "/projects" ? "active-link" : ""
+                }`}
+              >
+                <a href="/projects">Projects</a>
+              </li>
+              <li
+                className={`p-4 nav-link ${
+                  pathname === "/resume" ? "active-link" : ""
+                }`}
+              >
+                <a href="/resume">Resume</a>
+              </li>
+              <li
+                className={`p-4 nav-link ${
+                  pathname === "/contact" ? "active-link" : ""
+                }`}
+              >
+                <a href="/contact">Contact</a>
+              </li>
+            </ul>
+          )}
+        </nav>
+      )}
     </header>
   );
 }

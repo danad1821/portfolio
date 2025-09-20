@@ -7,6 +7,16 @@ import { useEffect, useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
+type ProjectResult = {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  skills: string[];
+  link: string;
+  date: Date;
+};
+
 export default function Home() {
   const router = useRouter();
   const [projects, setProjects] = useState([]);
@@ -14,7 +24,15 @@ export default function Home() {
   const getAllProjects = async () => {
     try {
       const res = await axios.get("http://localhost:5000/projects");
-      setProjects(res.data);
+      const projectData: ProjectResult[] = res.data;
+
+      // Convert the date string to a Date object for each project
+      const projectsWithDates = projectData.map((proj) => ({
+        ...proj,
+        date: new Date(proj.date),
+      }));
+
+      setProjects(projectsWithDates.sort((a: any, b: any) => b.date - a.date));
     } catch (error) {
       console.error(error);
     }
@@ -65,12 +83,12 @@ export default function Home() {
 
         <section className="bg-color-primary-green p-8 flex flex-col items-center">
           <h2 className="text-xl mb-4 font-bold text-white">Checkout my projects</h2>
-          <div className="flex gap-4 overflow-auto">
+          <div className="flex gap-4 overflow-scroll">
             {projects.length > 0
               ? projects.slice(0,3).map((project, index) => (
                   <ProjectCard key={index} project={project} />
                 ))
-              : "No projects available"}
+              : <p className="text-white">No projects available</p>}
           </div>
         </section>
 

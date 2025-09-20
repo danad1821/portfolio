@@ -6,6 +6,7 @@ type ProjectCardProps = {
     image: string;
     skills: string[];
     link: string;
+    date: Date;
   };
 };
 
