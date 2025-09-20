@@ -99,7 +99,7 @@ export default function ContactForm() {
         e.preventDefault();
       }}
     >
-      <div className="flex flex-col gap-4 w-md">
+      <div className="flex flex-col gap-4 w-70 sm:w-100">
         <label htmlFor="" className="mt-2">
           Email
         </label>
@@ -113,7 +113,7 @@ export default function ContactForm() {
           onChange={handleInputChange}
         />
       </div>
-      <div className="flex flex-col gap-4 w-md">
+      <div className="flex flex-col gap-4 w-70 sm:w-100">
         <label htmlFor="" className="mt-2">
           Subject
         </label>
@@ -127,7 +127,7 @@ export default function ContactForm() {
           onChange={handleInputChange}
         />
       </div>
-      <div className="flex flex-col gap-4 w-md">
+      <div className="flex flex-col gap-4 w-70 sm:w-100">
         <label htmlFor="" className="mt-2">
           Message
         </label>

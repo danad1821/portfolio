@@ -13,6 +13,7 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    scroll-behavior: smooth;
 }
 
 main { 
@@ -57,6 +58,18 @@ footer {
 
 .bg-gold{
     background-color: var(--gold);
+}
+
+.scrollable-projects {
+  display: flex;
+  flex-wrap: nowrap; /* Add this line */
+  gap: 4; /* Consider using a spacing utility like `gap-4` in Tailwind CSS */
+  overflow-x: scroll;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+.scrollable-projects::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
 }
 
 .other-socials-box{

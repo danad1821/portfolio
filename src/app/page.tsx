@@ -19,7 +19,7 @@ type ProjectResult = {
 
 export default function Home() {
   const router = useRouter();
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<ProjectResult[]>([]);
 
   const getAllProjects = async () => {
     try {
@@ -82,13 +82,20 @@ export default function Home() {
         </section>
 
         <section className="bg-color-primary-green p-8 flex flex-col items-center">
-          <h2 className="text-xl mb-4 font-bold text-white">Checkout my projects</h2>
-          <div className="flex gap-4 overflow-scroll">
-            {projects.length > 0
-              ? projects.slice(0,3).map((project, index) => (
+          <h2 className="text-xl mb-4 font-bold text-white">
+            Checkout my projects
+          </h2>
+          <div className="flex gap-4 scrollable-projects min-w-full">
+            {" "}
+            {projects.length > 0 ? (
+              projects
+                .slice(0, 3)
+                .map((project, index) => (
                   <ProjectCard key={index} project={project} />
                 ))
-              : <p className="text-white">No projects available</p>}
+            ) : (
+              <p className="text-white">No projects available</p>
+            )}
           </div>
         </section>
 
