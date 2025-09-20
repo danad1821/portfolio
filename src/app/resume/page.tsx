@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PDFViewer from "components/pdfViewer";
+import ResumeCarousel from "components/resumeCarousel";
 
 type ProjectResult = {
   _id: string;
@@ -64,55 +65,7 @@ export default function Resume() {
           </section>
           <section>
             {viewMode ? (
-              <div className="flex">
-                <section className="bg-color-primary-green rounded-lg p-4 text-white m-2">
-                  <section>
-                    <h2 className="text-xl mb-2 font-bold">Education</h2>
-                    <p>Graduted from <b>Rafik Hariri University (RHU)</b> with a <b>94.34 CGPA</b></p>
-                    <h3>Degree:</h3>
-                    <p>Bachelor of Science in <b>Computer Science</b></p>
-                    <p>Minor in Business Administration</p>
-                    <p>Placed on the <b>President's Honors list</b> from my first semester to my last.</p>
-                  </section>
-                  <section>
-                    <h2 className="text-xl mb-2 font-bold">Work Experience</h2>
-                  </section>
-                  <section>
-                    <h2 className="text-xl mb-2 font-bold">
-                      Leadership & Activities
-                    </h2>
-                  </section>
-                </section>
-                <section className="bg-color-primary-green rounded-lg p-4 text-white m-2">
-                  <section>
-                    <h2 className="text-xl mb-2 font-bold">Technical Skills</h2>
-                    <ul>
-                      {Array.from(skills).map((skill, index) => (
-                        <li key={index}>{skill as string}</li>
-                      ))}
-                    </ul>
-                  </section>
-                  <section>
-                    <h2 className="text-xl mb-2 font-bold">Soft Skills</h2>
-                    <ul>
-                      <li>Communication</li>
-                      <li>Teamwork</li>
-                      <li>Leadership</li>
-                      <li>Critical Thinking</li>
-                      <li>Problem Solving</li>
-                    </ul>
-                  </section>
-                  <section>
-                    <h2 className="text-xl mb-2 font-bold">Languages</h2>
-                    <ul>
-                      <li>English</li>
-                      <li>Arabic</li>
-                      <li>German</li>
-                      <li>Spanish</li>
-                    </ul>
-                  </section>
-                </section>
-              </div>
+              <ResumeCarousel/>
             ) : (
               <PDFViewer/>
             )}
