@@ -81,15 +81,15 @@ export default function Home() {
           </button>
         </section>
 
-        <section className="bg-color-primary-green p-8 flex flex-col items-center">
+        <section className="bg-color-primary-green p-8 flex flex-col items-center justify-center">
           <h2 className="text-xl mb-4 font-bold text-white">
             Checkout my projects
           </h2>
-          <div className="flex gap-4 scrollable-projects min-w-full">
+          <div className="flex gap-4 scrollable-projects min-w-full items-center">
             {" "}
             {projects.length > 0 ? (
               projects
-                .slice(0, 3)
+                .slice(0, 5)
                 .map((project, index) => (
                   <ProjectCard key={index} project={project} />
                 ))

@@ -38,14 +38,16 @@ export default function ProjectPage() {
 
   return (
     <>
-      <main className="flex flex-col items-center justify-center relative">
+      <main className="flex flex-col items-center justify-center relative overflow-hidden">
         <GoldSquiggles/>
         <section className="flex flex-wrap gap-2 items-center bg-color-pink w-full tex-white z-2">
-          <img
-            src={`/${projectDetails?.image}`}
-            alt={projectDetails?.title}
-            className="h-70 w-md"
-          />
+          <div className="w-80 flex items-center justify-center bg-gray-100 rounded-lg my-4 mx-2">
+            <img
+              src={`/${projectDetails?.image}`}
+              alt={projectDetails?.title}
+              className="h-70 w-auto rounded-lg"
+            />
+          </div>
           <section className="m-4 text-white flex flex-col">
             <h1 className="font-bold text-3xl text-center m-2 jusitify-self-center">
               {projectDetails?.title}
@@ -53,9 +55,9 @@ export default function ProjectPage() {
             <section>
               <h2 className="text-xl my-2 font-bold">Description:</h2>
               <div className="flex flex-wrap items-center">
-                <p className=" mr-2">{projectDetails?.description}</p>
+                <p className="max-w-2xl mr-2">{projectDetails?.description}</p>
                 <a href={projectDetails?.link}>
-                  <button className="bg-color-secondary-green px-2 rounded-md hover:text-[#B98A3C]">
+                  <button className="bg-color-secondary-green px-2 rounded-md hover:text-[#B98A3C] my-1">
                     Link
                   </button>
                 </a>
@@ -67,7 +69,7 @@ export default function ProjectPage() {
                 {projectDetails?.skills.map((skill, index) => (
                   <button
                     key={index}
-                    className="bg-color-secondary-green p-2 mr-2 rounded-lg hover:text-[#B98A3C]"
+                    className="bg-color-secondary-green p-2 mr-2 mt-1 rounded-lg hover:text-[#B98A3C]"
                     onClick={()=>{checkProjectsBySkill(skill)}}
                   >
                     {skill}
@@ -77,7 +79,7 @@ export default function ProjectPage() {
             </section>
           </section>
         </section>
-        <GoldSquiggles/>
+        {/* <GoldSquiggles/> */}
       </main>
     </>
   );

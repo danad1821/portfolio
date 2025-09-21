@@ -62,11 +62,12 @@ footer {
 
 .scrollable-projects {
   display: flex;
-  flex-wrap: nowrap; /* Add this line */
+  flex-wrap: nowrap; 
   gap: 4; /* Consider using a spacing utility like `gap-4` in Tailwind CSS */
   overflow-x: scroll;
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+  width: 360px;
 }
 .scrollable-projects::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */

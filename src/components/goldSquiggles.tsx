@@ -3,7 +3,7 @@ import { useWindowDimensions } from "hooks/useWindowDimensions";
 
 export default function GoldSquiggles() {
   const { width, height } = useWindowDimensions();
-  const svgHeight = height-10;
+  const svgHeight = height-150;
 
   // Assuming the original squiggles are evenly spaced within the 800x800 viewBox
   const numSquiggles = 18;
