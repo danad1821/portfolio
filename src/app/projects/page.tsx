@@ -1,7 +1,7 @@
 "use client";
 import ProjectCard from "components/projectCard";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import Loading from "app/loading";
 import { IoFilterOutline } from "react-icons/io5";
@@ -35,20 +35,12 @@ export default function Projects() {
   const [selectedSkills, setSelectedSkills] = useState<string[]>(
     filterSkills ? [filterSkills] : []
   );
-  const projectsPerPage = 6;
+  const projectsPerPage = 8;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sorting, setSorting] = useState<boolean>(true);
+  const [sortType, setSortType] = useState<"date" | "title">("date");
+  const [sortingOrder, setSortingOrder] = useState<boolean>(true);
 
-  const sortProjects = (projectsToSort: ProjectResult[]) => {
-    const sorted = [...projectsToSort]; // Create a new array to avoid mutating state
-    if (sorting) {
-      sorted.sort((a: any, b: any) => b.date - a.date); // Sort from latest to earliest (descending)
-    } else {
-      sorted.sort((a: any, b: any) => a.date - b.date); // Sort from earliest to latest (ascending)
-    }
-    setFilteredProjects(sorted);
-  };
-
+  const popupRef = useRef<HTMLDivElement>(null);
   const applyFilters = () => {
     let newFilteredProjects = [...projects];
 
@@ -64,10 +56,20 @@ export default function Projects() {
       );
     }
 
-    if (sorting) {
-      newFilteredProjects.sort((a: any, b: any) => b.date - a.date); // Sort from latest to earliest (descending)
-    } else {
-      newFilteredProjects.sort((a: any, b: any) => a.date - b.date); // Sort from earliest to latest (ascending)
+    if (sortType === "date") {
+      newFilteredProjects.sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return sortingOrder ? dateB - dateA : dateA - dateB;
+      });
+    } else if (sortType === "title") {
+      newFilteredProjects.sort((a, b) => {
+        if (sortingOrder) {
+          return b.title.localeCompare(a.title); // Z-A
+        } else {
+          return a.title.localeCompare(b.title); // A-Z
+        }
+      });
     }
 
     setFilteredProjects(newFilteredProjects);
@@ -119,7 +121,7 @@ export default function Projects() {
 
   useEffect(() => {
     applyFilters();
-  }, [searchQuery, selectedSkills, projects]);
+  }, [searchQuery, selectedSkills, projects, sortType, sortingOrder]);
 
   useEffect(() => {
     const startIndex = (currentPage - 1) * projectsPerPage;
@@ -137,10 +139,21 @@ export default function Projects() {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const handleSortClick = () => {
-    setSorting((prevSorting) => !prevSorting);
-    sortProjects(filteredProjects);
-  };
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+      setOpenTooltip(false); // Close the popup
+    }
+    }
+
+    if (openTooltip) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openTooltip]); // Re-run effect when isPopupOpen changes
 
   return (
     <>
@@ -149,20 +162,39 @@ export default function Projects() {
       ) : (
         <main className="relative">
           <h1 className="font-bold text-3xl text-center m-3">Projects</h1>
-          <section className="flex gap-2 items-center justify-center">
-            <input
-              type="text"
-              placeholder="search by name"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="border-2 border-[#2D4734] rounded-lg p-1"
-            />
-            <button onClick={() => setOpenTooltip(!openTooltip)}>
-              <IoFilterOutline />
-            </button>
-            <button onClick={handleSortClick}>
-              {!sorting ? <RiSortAsc /> : <RiSortDesc />}
-            </button>
+          <section className="flex flex-col gap-2 items-center justify-center">
+            <div className="flex items-center gap-1">
+              <input
+                type="text"
+                placeholder="search by name"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="border-2 border-[#2D4734] rounded-lg p-1"
+              />
+              <button
+                onClick={() => setOpenTooltip(!openTooltip)}
+                onBlur={() => setOpenTooltip(false)}
+              >
+                <IoFilterOutline />
+              </button>
+            </div>
+            <div className="flex items-center gap-1">
+              <select
+                name="sortingOption"
+                id="sortingOption"
+                value={sortType}
+                onChange={(e) =>
+                  setSortType(e.target.value as "date" | "title")
+                }
+                className="border-2 rounded-lg border-b-[#2D4734]"
+              >
+                <option value="date">Sort by Date</option>
+                <option value="title">Sort By Title</option>
+              </select>
+              <button onClick={() => setSortingOrder(!sortingOrder)}>
+                {sortingOrder ? <RiSortDesc /> : <RiSortAsc />}
+              </button>
+            </div>
           </section>
           {openTooltip && (
             <div className="absolute top-10 right-1/2 translate-x-3/5 z-10 min-w-lg">
