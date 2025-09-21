@@ -139,22 +139,6 @@ export default function Projects() {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
-      setOpenTooltip(false); // Close the popup
-    }
-    }
-
-    if (openTooltip) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openTooltip]); // Re-run effect when isPopupOpen changes
-
   return (
     <>
       {isLoading ? (
@@ -173,7 +157,6 @@ export default function Projects() {
               />
               <button
                 onClick={() => setOpenTooltip(!openTooltip)}
-                onBlur={() => setOpenTooltip(false)}
               >
                 <IoFilterOutline />
               </button>

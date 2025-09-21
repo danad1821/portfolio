@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import AdminSignIn from "./adminSignIn";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useWindowDimensions } from "hooks/useWindowDimensions";
 import { RxHamburgerMenu } from "react-icons/rx";
+
 export default function Header() {
   const { width, height } = useWindowDimensions();
+  const router = useRouter();
   const [openAdminSignIn, setOpenAdminsignIn] = useState<boolean>(false);
   const [openResponsiveNav, setOpenResponsiveNav] = useState<boolean>(false);
   const pathname = usePathname();
@@ -39,6 +41,7 @@ export default function Header() {
               className={`p-4 nav-link ${
                 pathname === "/" ? "active-link" : ""
               }`}
+              onClick={()=>{router.push('/')}}
             >
               <a href="/" onClick={closeResponsiveNav}>Home</a>
             </li>
@@ -46,6 +49,7 @@ export default function Header() {
               className={`p-4 nav-link ${
                 pathname === "/projects" ? "active-link" : ""
               }`}
+              onClick={()=>{router.push('/projects')}}
             >
               <a href="/projects" onClick={closeResponsiveNav}>Projects</a>
             </li>
@@ -53,6 +57,7 @@ export default function Header() {
               className={`p-4 nav-link ${
                 pathname === "/resume" ? "active-link" : ""
               }`}
+              onClick={()=>{router.push('/resume')}}
             >
               <a href="/resume" onClick={closeResponsiveNav}>Resume</a>
             </li>
@@ -60,6 +65,7 @@ export default function Header() {
               className={`p-4 nav-link ${
                 pathname === "/contact" ? "active-link" : ""
               }`}
+              onClick={()=>{router.push('/contact')}}
             >
               <a href="/contact" onClick={closeResponsiveNav}>Contact</a>
             </li>
@@ -91,6 +97,7 @@ export default function Header() {
                 className={`p-4 nav-link ${
                   pathname === "/" ? "active-link" : ""
                 }`}
+                onClick={()=>{router.push('/')}}
               >
                 <a href="/">Home</a>
               </li>
@@ -98,6 +105,7 @@ export default function Header() {
                 className={`p-4 nav-link ${
                   pathname === "/projects" ? "active-link" : ""
                 }`}
+                onClick={()=>{router.push('/projects')}}
               >
                 <a href="/projects">Projects</a>
               </li>
@@ -105,6 +113,7 @@ export default function Header() {
                 className={`p-4 nav-link ${
                   pathname === "/resume" ? "active-link" : ""
                 }`}
+                onClick={()=>{router.push('/resume')}}
               >
                 <a href="/resume">Resume</a>
               </li>
@@ -112,6 +121,7 @@ export default function Header() {
                 className={`p-4 nav-link ${
                   pathname === "/contact" ? "active-link" : ""
                 }`}
+                onClick={()=>{router.push('/contact')}}
               >
                 <a href="/contact">Contact</a>
               </li>

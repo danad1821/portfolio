@@ -55,7 +55,7 @@ export default function ProjectPage() {
             <section>
               <h2 className="text-xl my-2 font-bold">Description:</h2>
               <div className="flex flex-wrap items-center">
-                <p className="max-w-2xl mr-2">{projectDetails?.description}</p>
+                <p className="max-w-3xl mr-2">{projectDetails?.description}</p>
                 <a href={projectDetails?.link}>
                   <button className="bg-color-secondary-green px-2 rounded-md hover:text-[#B98A3C] my-1">
                     Link

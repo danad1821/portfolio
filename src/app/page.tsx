@@ -97,6 +97,10 @@ export default function Home() {
               <p className="text-white">No projects available</p>
             )}
           </div>
+          <button  className="bg-color-secondary-green rounded-lg px-4 py-2 text-white max-w-md m-2 mt-5 flex items-center" onClick={()=>{router.push('/projects')}}>
+            See more projects
+            <FaChevronRight className="ml-1" />
+          </button>
         </section>
 
         <section className="p-8 m-5 flex flex-col items-center">
