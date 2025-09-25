@@ -9,7 +9,7 @@ export default function Footer() {
           <button
             className="flex gap-3 items-center justify-center text-2xl"
             onClick={() => {
-              window.open("https://www.linkedin.com/in/dana-dabdoub/");
+              window.open("https://www.linkedin.com/in/dana-dabdoub/", '_blank');
             }}
           >
             <FaLinkedin />
@@ -17,7 +17,7 @@ export default function Footer() {
           <button
             className="flex gap-3 items-center justify-center text-2xl"
             onClick={() => {
-              window.open("https://github.com/danad1821");
+              window.open("https://github.com/danad1821", '_blank');
             }}
           >
             <FaGithubSquare />

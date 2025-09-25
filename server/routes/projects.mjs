@@ -17,4 +17,11 @@ projectsRouter.get("/:id", async(req, res) =>{
   res.send(result).status(200);
 });
 
+projectsRouter.post("/edit_project", async(req, res)=>{
+  const newProjectData = req.body;
+  let collection = await db.collection("projects");
+  await collection.updateOne({}, { $set: newProjectData })
+  res.status(200)
+})
+
 export default projectsRouter;

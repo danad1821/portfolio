@@ -1,18 +1,18 @@
-"use client";
 import { useState } from "react";
 import Form from "next/form";
 import { RiCloseFill } from "react-icons/ri";
-
+import { useRouter } from "next/navigation";
 type SignInInfo = {
   email: string;
   password: string;
 };
 
-type AdminSignInProps ={
-    closeAdminSignIn: () => void;
-}
+type AdminSignInProps = {
+  closeAdminSignIn: () => void;
+};
 
-export default function AdminSignIn({closeAdminSignIn}:AdminSignInProps) {
+export default function AdminSignIn({ closeAdminSignIn }: AdminSignInProps) {
+  const router = useRouter();
   const [signInInfo, setSignInInfo] = useState<SignInInfo>({
     email: "",
     password: "",
@@ -26,6 +26,10 @@ export default function AdminSignIn({closeAdminSignIn}:AdminSignInProps) {
     }));
   };
 
+  const handlePopupClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevents the click from bubbling up to the parent elements
+  };
+
   return (
     <section>
       {/* Overlay - covers the entire screen */}
@@ -33,7 +37,11 @@ export default function AdminSignIn({closeAdminSignIn}:AdminSignInProps) {
 
       {/* Popup - centered over the overlay */}
       <div className="fixed inset-0 z-20 flex items-center justify-center">
-        <section className="bg-color-pink text-white rounded-lg py-6 px-4 shadow-lg flex flex-col justify-center w-lg">
+        {/* Add the onClick handler to stop propagation */}
+        <section
+          className="bg-color-pink text-white rounded-lg py-6 px-4 shadow-lg flex flex-col justify-center w-90"
+          onClick={handlePopupClick}
+        >
           <section className="flex justify-between">
             <h2 className="font-bold text-2xl">Admin Sign In</h2>
             <button className="text-2xl" onClick={closeAdminSignIn}>
@@ -42,12 +50,12 @@ export default function AdminSignIn({closeAdminSignIn}:AdminSignInProps) {
           </section>
           <Form
             action="/send-message"
-            className="flex flex-col gap-4 items-center max-w-lg"
+            className="flex flex-col gap-4 items-center"
             onSubmit={(e) => {
               e.preventDefault();
             }}
           >
-            <div className="flex flex-col gap-4 w-md">
+            <div className="flex flex-col gap-4 w-70">
               <label htmlFor="email" className="mt-2">
                 Email
               </label>
@@ -62,7 +70,7 @@ export default function AdminSignIn({closeAdminSignIn}:AdminSignInProps) {
                 required
               />
             </div>
-            <div className="flex flex-col gap-4 w-md">
+            <div className="flex flex-col gap-4 w-70">
               <label htmlFor="password-input" className="mt-2">
                 Password
               </label>
@@ -77,6 +85,7 @@ export default function AdminSignIn({closeAdminSignIn}:AdminSignInProps) {
                 required
               />
             </div>
+            <button type="submit" className="bg-color-primary-green rounded-lg p-2" onClick={()=>{router.push('/admin')}}>Sign In</button>
           </Form>
         </section>
       </div>

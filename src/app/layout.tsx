@@ -14,14 +14,7 @@ export const metadata: Metadata = {
   title: "Dana's Portfolio",
   description:
     "Welcome to my portfolio website. Here you can find information about my projects, skills, and how to contact me.",
-   icons: {
-        icon: [
-          {
-            media: '(prefers-color-scheme: light)',
-            url: '/logo.svg', // Path to your light mode icon
-          },
-        ],
-      },
+
 };
 
 export default function RootLayout({
