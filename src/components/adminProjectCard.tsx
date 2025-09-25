@@ -1,37 +1,39 @@
 "use client";
+type ProjectResult = {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  skills: string[];
+  link: string;
+  date: Date;
+};
 type ProjectCardProps = {
-  project: Object & {
-    _id: string;
-    title: string;
-    description: string;
-    image: string;
-    skills: string[];
-    link: string;
-    date: Date;
-  };
+  project: ProjectResult;
+  editProject: (project: ProjectResult)=> void;
+  deleteProject: (project: ProjectResult)=> void;
 };
 import { useState } from "react";
 import EditProjectInfoForm from "./editProjectInfoForm";
 
-export default function AdminProjectCard({ project }: ProjectCardProps) {
+export default function AdminProjectCard({ project, editProject, deleteProject }: ProjectCardProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const closeEditingWindow = ()=>{
     setIsEditing(false);
   }
+
+  const deleteAProject = () =>{
+    deleteProject(project);
+  }
   return (
     <>
       <div className="block hover:shadow-lg transition-shadow duration-300 max-w-80  min-w-80 m-2">
-        <div className="border rounded-lg overflow-hidden shadow-lg bg-white max-h-90 min-h-90 flex flex-col items-center">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-auto h-48 bg-gray-100 self-center text-center"
-          />
+        <div className="border rounded-lg overflow-hidden shadow-lg bg-white max-h-60 min-h-60 flex flex-col items-center">
           <div className="p-4">
             <h2 className="text-xl font-bold mb-2">{project.title}</h2>
             <p className="text-gray-700">
-              {project.description.length > 30
+              {project.description.split(" ").length > 14
                 ? project.description.split(" ").slice(0, 14).join(" ") + "..."
                 : project.description}
             </p>
@@ -45,12 +47,12 @@ export default function AdminProjectCard({ project }: ProjectCardProps) {
             >
               Edit
             </button>
-            <button className="bg-red-500 p-2 rounded-lg m-2 text-white">
+            <button className="bg-red-500 p-2 rounded-lg m-2 text-white" onClick={deleteAProject}>
               Delete
             </button>
           </div>
           {
-            isEditing ? <EditProjectInfoForm closePopUp={closeEditingWindow} project={project}/> : <></>
+            isEditing ? <EditProjectInfoForm closePopUp={closeEditingWindow} project={project} editProject={editProject}/> : <></>
           }
           
         </div>
