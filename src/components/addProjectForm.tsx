@@ -16,8 +16,7 @@ type ProjectResult = {
 
 type PopUpProps = {
   closePopUp: () => void;
-  project: ProjectResult;
-  editProject: (project:ProjectResult)=>void;
+  addProject: (project:ProjectResult)=>void;
 };
 
 // Helper function to format a Date object into "YYYY-MM-DD" string
@@ -30,10 +29,9 @@ const formatDateForInput = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
-export default function EditProjectInfoForm({
+export default function AddProjectInfoForm({
   closePopUp,
-  project,
-  editProject
+  addProject
 }: PopUpProps) {
   // Initialize state with the correct type and empty values
   const [projectInfo, setProjectInfo] = useState<ProjectResult>({
@@ -70,25 +68,16 @@ export default function EditProjectInfoForm({
     e.stopPropagation(); // Prevents the click from bubbling up to the parent elements
   };
 
-  const confirmEdits = async() =>{
+  const addAProject = async() =>{
     try{
-      await axios.post("http://localhost:5000/projects/edit_project", projectInfo)
-      editProject(projectInfo);
-    }catch(er){
-      console.error(er);
+        await axios.post("http://localhost:5000/projects/add_project", projectInfo)
+        addProject(projectInfo);
+    }catch(err){
+        console.error("Error adding Project: ", err);
     }
     
   }
 
-  useEffect(() => {
-    // Ensure the date object is properly copied from props
-    if (project) {
-      setProjectInfo({
-        ...project,
-        date: new Date(project.date), // Clone the date to avoid mutation issues
-      });
-    }
-  }, [project]);
 
   return (
     <section>
@@ -103,7 +92,7 @@ export default function EditProjectInfoForm({
           onClick={handlePopupClick}
         >
           <section className="flex justify-between">
-            <h2 className="font-bold text-2xl">Editing: {projectInfo.title}</h2>
+            <h2 className="font-bold text-2xl">Adding: {projectInfo.title}</h2>
             <button className="text-2xl" onClick={closePopUp}>
               <RiCloseFill />
             </button>
@@ -199,9 +188,9 @@ export default function EditProjectInfoForm({
               <button
                 type="submit"
                 className="bg-color-secondary-green rounded-lg p-2"
-                onClick={confirmEdits}
+                onClick={addAProject}
               >
-                Confirm changes
+                Add
               </button>
               <button type="button" onClick={closePopUp} className="bg-color-secondary-green rounded-lg p-2">
                 Cancel

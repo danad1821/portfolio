@@ -15,16 +15,24 @@ type ProjectCardProps = {
 };
 import { useState } from "react";
 import EditProjectInfoForm from "./editProjectInfoForm";
+import axios from "axios";
+import ConfirmDeletion from "./confirmDeletion";
 
 export default function AdminProjectCard({ project, editProject, deleteProject }: ProjectCardProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   const closeEditingWindow = ()=>{
     setIsEditing(false);
   }
 
-  const deleteAProject = () =>{
-    deleteProject(project);
+  const deleteAProject = async() =>{
+    try{
+      await axios.post("http://localhost:5000/projects/delete_project", project)
+      deleteProject(project);
+    }catch(err){
+      console.error("Error deleting project: ", err);
+    }
   }
   return (
     <>
@@ -47,14 +55,16 @@ export default function AdminProjectCard({ project, editProject, deleteProject }
             >
               Edit
             </button>
-            <button className="bg-red-500 p-2 rounded-lg m-2 text-white" onClick={deleteAProject}>
+            <button className="bg-red-500 p-2 rounded-lg m-2 text-white" onClick={()=>setIsDeleting(true)}>
               Delete
             </button>
           </div>
           {
             isEditing ? <EditProjectInfoForm closePopUp={closeEditingWindow} project={project} editProject={editProject}/> : <></>
           }
-          
+          {
+            isDeleting ? <ConfirmDeletion closePopUp={()=>setIsDeleting(false)} deleteProject={deleteAProject}/> : <></>
+          }
         </div>
       </div>
     </>

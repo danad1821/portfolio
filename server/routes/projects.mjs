@@ -46,4 +46,32 @@ projectsRouter.post("/edit_project", async(req, res)=>{
   }
 });
 
+projectsRouter.post("/add_project", async(req, res)=>{
+  const newProjectData = req.body;
+  let collection = await db.collection("projects");
+  try{
+    const result = collection.insertOne(newProjectData);
+    res.status(200).json({ 
+      message: "Project added successfully", 
+    });
+  }catch(err){
+    console.error("Error adding project: ",err)
+    res.status(500).json({ message: "Failed to add a project", error: err.message });
+  }
+});
+
+projectsRouter.post("/delete_project", async(req, res)=>{
+  const newProjectData = req.body;
+  let collection = await db.collection("projects");
+  try{
+    const result = collection.deleteOne({ _id: newProjectData._id });
+    res.status(200).json({ 
+      message: "Project deleted successfully", 
+    });
+  }catch(err){
+    console.error("Error deleting project: ",err)
+    res.status(500).json({ message: "Failed to delete a project", error: err.message });
+  }
+});
+
 export default projectsRouter;
