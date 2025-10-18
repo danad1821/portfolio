@@ -73,17 +73,23 @@ export default function EditProjectInfoForm({
   };
 
   const confirmEdits = async () => {
+    if (!projectInfo._id || projectInfo._id.length !== 24) {
+      console.error(
+        "Error: Project ID is missing or invalid. Aborting update."
+      );
+      // Optional: Show an error message to the user
+      return;
+    }
     try {
-      console.log(project)
-      console.log(projectInfo)
+      console.log(project);
+      console.log(projectInfo);
       await axios.post(
         "http://localhost:5000/projects/edit_project",
         projectInfo
       );
-      
+
       editProject(projectInfo);
       closePopUp(); // Close on success
-      
     } catch (er) {
       console.error("Error confirming edits:", er);
       // Optional: Add user-facing error message here
@@ -142,11 +148,10 @@ export default function EditProjectInfoForm({
           <form
             action="/send-message"
             className="flex flex-col gap-2 items-center"
-            onSubmit={async (e) => { 
+            onSubmit={async (e) => {
               e.preventDefault();
               await confirmEdits(); // Call the async function
             }}
-
           >
             <div className="flex justify-center flex-wrap gap-2">
               <div className="flex flex-col gap-4 w-70">
@@ -242,7 +247,7 @@ export default function EditProjectInfoForm({
                   }}
                 />
                 <button
-                type="button"
+                  type="button"
                   onClick={addSkill}
                   className="bg-color-secondary-green rounded-lg text-md p-2 m-2 min-w-30"
                 >
