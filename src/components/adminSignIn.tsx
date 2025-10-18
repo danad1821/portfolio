@@ -2,6 +2,7 @@ import { useState } from "react";
 import Form from "next/form";
 import { RiCloseFill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
+
 type SignInInfo = {
   email: string;
   password: string;
@@ -17,7 +18,7 @@ export default function AdminSignIn({ closeAdminSignIn }: AdminSignInProps) {
     email: "",
     password: "",
   });
-
+  const [error, setError] = useState<string>("");
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setSignInInfo((prev) => ({
@@ -28,6 +29,35 @@ export default function AdminSignIn({ closeAdminSignIn }: AdminSignInProps) {
 
   const handlePopupClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevents the click from bubbling up to the parent elements
+  };
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(""); // Clear previous errors
+
+    try {
+      const response = await fetch("http://localhost:5000/admin-sign-in", { // This is the new Express endpoint
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(signInInfo),
+      });
+
+      if (response.ok) {
+        // Sign-in successful
+        console.log("Admin Sign In successful");
+        router.push("/admin"); // Redirect to admin dashboard
+        closeAdminSignIn(); // Close the sign-in popup
+      } else {
+        // Sign-in failed (e.g., wrong credentials)
+        const errorData = await response.json();
+        setError(errorData.message || "Sign In failed. Please check your credentials.");
+      }
+    } catch (err) {
+      console.error("Network or server error:", err);
+      setError("An unexpected error occurred. Please try again.");
+    }
   };
 
   return (
@@ -49,11 +79,9 @@ export default function AdminSignIn({ closeAdminSignIn }: AdminSignInProps) {
             </button>
           </section>
           <Form
-            action="/send-message"
             className="flex flex-col gap-4 items-center"
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
+            action="/admin-sign-in"
+            onSubmit={handleSignIn}
           >
             <div className="flex flex-col gap-4 w-70">
               <label htmlFor="email" className="mt-2">
@@ -85,7 +113,8 @@ export default function AdminSignIn({ closeAdminSignIn }: AdminSignInProps) {
                 required
               />
             </div>
-            <button type="submit" className="bg-color-primary-green rounded-lg p-2" onClick={()=>{router.push('/admin')}}>Sign In</button>
+            {error && <p className="text-red-400">{error}</p>}
+            <button type="submit" className="bg-color-primary-green rounded-lg p-2" >Sign In</button>
           </Form>
         </section>
       </div>

@@ -41,7 +41,7 @@ export default function AdminProjectCard({ project, editProject, deleteProject }
           <div className="p-4">
             <h2 className="text-xl font-bold mb-2">{project.title}</h2>
             <p className="text-gray-700">
-              {project.description.split(" ").length > 14
+              {project.description.split(" ").length > 8
                 ? project.description.split(" ").slice(0, 14).join(" ") + "..."
                 : project.description}
             </p>

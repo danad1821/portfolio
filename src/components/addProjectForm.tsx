@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { RiCloseFill } from "react-icons/ri";
-import { useRouter } from "next/navigation";
 import axios from "axios";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 type ProjectResult = {
   _id: string;
@@ -16,7 +16,7 @@ type ProjectResult = {
 
 type PopUpProps = {
   closePopUp: () => void;
-  addProject: (project:ProjectResult)=>void;
+  addProject: (project: ProjectResult) => void;
 };
 
 // Helper function to format a Date object into "YYYY-MM-DD" string
@@ -31,7 +31,7 @@ const formatDateForInput = (date: Date) => {
 
 export default function AddProjectInfoForm({
   closePopUp,
-  addProject
+  addProject,
 }: PopUpProps) {
   // Initialize state with the correct type and empty values
   const [projectInfo, setProjectInfo] = useState<ProjectResult>({
@@ -43,6 +43,8 @@ export default function AddProjectInfoForm({
     link: "",
     date: new Date(), // Initialize with a new Date object
   });
+
+  const [skillInput, setSkillInput] = useState<string>("");
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -68,16 +70,38 @@ export default function AddProjectInfoForm({
     e.stopPropagation(); // Prevents the click from bubbling up to the parent elements
   };
 
-  const addAProject = async() =>{
-    try{
-        await axios.post("http://localhost:5000/projects/add_project", projectInfo)
-        addProject(projectInfo);
-    }catch(err){
-        console.error("Error adding Project: ", err);
+  const addAProject = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/projects/add_project",
+        projectInfo
+      );
+      addProject(projectInfo);
+    } catch (err) {
+      console.error("Error adding Project: ", err);
     }
-    
-  }
+  };
 
+  const addSkill = () => {
+    // 1. Basic validation: don't add empty skills
+    if (!skillInput.trim()) return;
+
+    setProjectInfo((prev) => ({
+      ...prev,
+      // 2. Create a NEW array by spreading the old skills and adding the new one
+      skills: [...prev.skills, skillInput.trim()],
+    }));
+
+    // 3. Clear the input field
+    setSkillInput("");
+  };
+
+  const removeSkill = (skillToRemove: string) => {
+    setProjectInfo((prev) => ({
+      ...prev,
+      skills: prev.skills.filter((skill) => skill !== skillToRemove),
+    }));
+  };
 
   return (
     <section>
@@ -100,10 +124,9 @@ export default function AddProjectInfoForm({
           <form
             action="/send-message"
             className="flex flex-col gap-2 items-center"
-            onSubmit={(e) => {
+            onSubmit={async(e) => {
               e.preventDefault();
-              // Add your form submission logic here
-              console.log(projectInfo);
+              await addAProject();
               closePopUp();
             }}
           >
@@ -120,7 +143,6 @@ export default function AddProjectInfoForm({
                   placeholder=""
                   value={projectInfo.title}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="flex flex-col gap-4 w-70">
@@ -134,7 +156,6 @@ export default function AddProjectInfoForm({
                   placeholder=""
                   value={projectInfo.description}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
             </div>
@@ -151,7 +172,6 @@ export default function AddProjectInfoForm({
                   placeholder=""
                   value={projectInfo.link}
                   onChange={handleInputChange}
-                  required
                 />
               </div>
               <div className="flex flex-col gap-4 w-70">
@@ -165,7 +185,6 @@ export default function AddProjectInfoForm({
                   className="border-[#568F87] border-2 rounded-lg p-4 bg-white text-black"
                   value={formatDateForInput(projectInfo.date)} // Use helper function
                   onChange={handleInputChange}
-                  required
                 />
               </div>
             </div>
@@ -181,18 +200,67 @@ export default function AddProjectInfoForm({
                 placeholder=""
                 value={projectInfo.image}
                 onChange={handleInputChange}
-                required
               />
             </div>
+
+            <div className="flex flex-col gap-4 w-70 items-center">
+              <label htmlFor="skill" className="mt-2">
+                Skills
+              </label>
+              <div className="flex items-center justify-center">
+                <input
+                  type="text"
+                  name="skill"
+                  id="skill"
+                  className="border-[#568F87] border-2 rounded-lg p-4 bg-white text-black"
+                  placeholder=""
+                  value={skillInput}
+                  onChange={(e) => {
+                    setSkillInput(e.target.value);
+                  }}
+                />
+                <button
+                type="button"
+                  onClick={addSkill}
+                  className="bg-color-secondary-green rounded-lg text-md p-2 m-2 min-w-30"
+                >
+                  Add skill
+                </button>
+              </div>
+            </div>
+            <section className="flex flex-wrap">
+              {projectInfo.skills.length > 0 ? (
+                projectInfo.skills.map((skill, index) => (
+                  <div
+                    key={index}
+                    className="bg-color-pink rounded-lg p-2 m-2 flex items-center"
+                  >
+                    <p>{skill}</p>
+                    <button
+                      onClick={() => {
+                        removeSkill(skill);
+                      }}
+                    >
+                      <RiDeleteBin6Line />
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <section>No skills inputted yet...</section>
+              )}
+            </section>
+
             <div className="flex items-center justify-end gap-2">
               <button
                 type="submit"
                 className="bg-color-secondary-green rounded-lg p-2"
-                onClick={addAProject}
               >
                 Add
               </button>
-              <button type="button" onClick={closePopUp} className="bg-color-secondary-green rounded-lg p-2">
+              <button
+                type="button"
+                className="bg-color-secondary-green rounded-lg p-2"
+              >
                 Cancel
               </button>
             </div>
